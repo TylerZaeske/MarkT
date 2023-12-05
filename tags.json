@@ -1,0 +1,13 @@
+{
+    "glow": "text-shadow: 0 0 5px currentColor;",
+    "unglow": "text-shadow: none;",
+    "bold": "font-weight: bold;",
+    "italic": "font-style: italic;",
+    "underline": "text-decoration: underline;",
+    "strike": "text-decoration: line-through;",
+    "sup": "vertical-align: super; font-size: smaller;",
+    "sub": "vertical-align: sub; font-size: smaller;",
+    "small": "font-size: smaller;",
+    "large": "font-size: 20px;",
+    "code": "NONE"
+}

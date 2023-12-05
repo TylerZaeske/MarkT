@@ -65,13 +65,6 @@ input[type='file']:focus {
     outline: none;
 }
 
-span {
-    white-space: pre;
-}
-
-div {
-    white-space: pre;
-}
 
 #findReplace {
     margin: 10px 0;
@@ -152,9 +145,8 @@ div {
     -ms-user-select: none;
 }
 
-
-code {
-    color: transparent;
+pre {
+    white-space: pre-wrap;
 }
 
 button, input[type='file']::file-selector-button {
