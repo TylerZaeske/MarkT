@@ -45,7 +45,7 @@
                 const aElement = document.createElement('a');
                 aElement.setAttribute('download', fileName);
                 const href = URL.createObjectURL(res);
-                aElement.href = href;
+                aElement.href = href
                 aElement.setAttribute('target', '_blank');
                 aElement.click();
                 URL.revokeObjectURL(href);
@@ -72,6 +72,42 @@
                 .replace(/}/g, '&#125;');
         }
     
+        // tag with params regex
+        const tagWithParamsRegex = /\[(\w+):([^\]]+)\]/gs;
+
+        let innerText = "";
+
+        function transformTagsWithParams(text) {
+            return text.replace(tagWithParamsRegex, (match, tag, params, offset, string) => {
+                // Extract the text following the tag up to the closing tag
+                const closingTag = `[/]`;
+                const closingTagIndex = string.indexOf(closingTag, offset);
+                if (closingTagIndex === -1) {
+                    return match; // No closing tag found, return the original match
+                }
+        
+                innerText = string.slice(offset + match.length, closingTagIndex);
+
+        
+                // Check if the tag is a link
+                if (tag === 'link') {
+                    const [url] = params.split(',');
+                    console.log("output: " + `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(innerText)}</a>`)
+                    return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(innerText)}</a>`;
+                } else if (tag === 'img') {
+                    const [url, width, height] = params.split(',');
+                    if (innerText) {
+                        return `<img src="${url}" alt="${innerText}" width="${width}" height="${height}">`;
+                    }
+                    return `<img src="${url}" width="${width}" height="${height}">`;
+                }
+        
+                // Return the original match if it's not a recognized tag
+                return match;
+            });
+        }
+
+
         // Function to handle code block transformation
         function transformCodeBlocks(text) {
 
@@ -110,8 +146,10 @@
         }
     
         // Transform code blocks before applying other styles
+        text = transformTagsWithParams(text);
         text = transformCodeBlocks(text);
 
+        text = text.replace(`${innerText}[/]`, "")
     
         const lines = text.split('\n');
             
