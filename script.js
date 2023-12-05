@@ -294,6 +294,7 @@
     });
 
     // When the user clicks on <span> (x), close the modal
+    // test
     span.onclick = function() {
         modal.style.display = "none";
     }
