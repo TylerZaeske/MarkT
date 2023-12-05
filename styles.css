@@ -5,7 +5,7 @@ body {
 
 #editor {
     width: 50%;
-    height: 100vh;
+    height: 87.5vh;
     background-color: rgb(35, 35, 35);
     color: rgb(255, 255, 255);
     border: 1px solid #ccc;
@@ -19,7 +19,7 @@ body {
 
 #output {
     width: 50%;
-    height: 100vh;
+    height: 87.5vh;
     border: 1px solid #ddd;
     padding: 10px;
     margin-top: 10px;

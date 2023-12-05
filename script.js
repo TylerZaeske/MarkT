@@ -1,5 +1,8 @@
-
     let presets = {};
+
+    Prism.hooks.add('before-sanity-check', function (env) {
+        env.code = env.element.innerText;
+    });
 
     window.onload = function() {
 
@@ -62,7 +65,11 @@
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+                .replace(/'/g, '&#039;')
+                .replace(/\[/g, '&#091;')
+                .replace(/\]/g, '&#093;')
+                .replace(/{/g, '&#123;')
+                .replace(/}/g, '&#125;');
         }
     
         // Function to handle code block transformation
@@ -71,7 +78,7 @@
             const codeBlockRegex = /\[code:(\w+)\](.*?)\[\/\]/gs;
             return text.replace(codeBlockRegex, (match, lang, code) => {
                 let formattedCode = escapeHTML(code);
-                return `<pre><code class="language-${lang}">${formattedCode}</code></pre>`;
+                return `<pre><code class="language-${lang}">${formattedCode.replace("\n", "")}</code></pre>`;
             });
         }
     
@@ -155,7 +162,7 @@
     
             // Add a line break after each line, except for the last one
             if (index < lines.length - 1) {
-                html += '<br>';
+                html += '</br>';
             }
         });
     
