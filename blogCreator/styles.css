@@ -1,0 +1,51 @@
+body {
+    background-color: rgb(35, 35, 35);
+    overflow-x: hidden;
+}
+
+#output {
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgb(35, 35, 35);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    font-family: monospace;
+}
+
+.container {
+    display: flex;
+}
+
+pre[class*=language-] {
+    background:#303030 !important;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+#output {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+#output::-webkit-scrollbar {
+    display: none;
+}
+
+.no-select {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+code[class*="language-"], pre[class*="language-"] {
+    line-height: 0.8 !important;
+}
