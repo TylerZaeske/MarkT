@@ -75,8 +75,6 @@
         // tag with params regex
         const tagWithParamsRegex = /\[(\w+):([^\]]+)\]/gs;
 
-        let innerText = "";
-
         function transformTagsWithParams(text) {
             return text.replace(tagWithParamsRegex, (match, tag, params, offset, string) => {
                 // Extract the text following the tag up to the closing tag
@@ -86,20 +84,17 @@
                     return match; // No closing tag found, return the original match
                 }
         
-                innerText = string.slice(offset + match.length, closingTagIndex);
+                const linkText = string.slice(offset + match.length, closingTagIndex);
 
         
                 // Check if the tag is a link
                 if (tag === 'link') {
                     const [url] = params.split(',');
-                    console.log("output: " + `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(innerText)}</a>`)
-                    return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(innerText)}</a>`;
-                } else if (tag === 'img') {
-                    const [url, width, height] = params.split(',');
-                    if (innerText) {
-                        return `<img src="${url}" alt="${innerText}" width="${width}" height="${height}">`;
+                    if (linkText) {
+                    console.log("output: " + `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(linkText)}</a>`)
+                    return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(linkText)}</a>`;
                     }
-                    return `<img src="${url}" width="${width}" height="${height}">`;
+                    return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(url)}</a>`;
                 }
         
                 // Return the original match if it's not a recognized tag
@@ -145,12 +140,22 @@
             }
         }
     
-        // Transform code blocks before applying other styles
-        text = transformTagsWithParams(text);
+        console.log("before: " + text);
         text = transformCodeBlocks(text);
 
-        text = text.replace(`${innerText}[/]`, "")
+        // Transform code blocks before applying other styles
+        text = transformTagsWithParams(text);
+
+        console.log("mid:" + text)
+
+
+        
+
+        console.log("After: " + text);
     
+        // replace /<\/a>(.*?)\[\/\]/ with "</a>" 
+        text = text.replace(/<\/a>(.*?)\[\/\]/gs, "</a>");
+        
         const lines = text.split('\n');
             
         lines.forEach((line, index) => {     
