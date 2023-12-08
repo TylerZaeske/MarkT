@@ -1,0 +1,3 @@
+[title]First blog post[/]
+
+This is the first blog post about my markup language [glow][link:https://github.com/tylerzaeske/MarkT]MarkT[/][/]. I made it with the intention to create blogs not unlike this one (which is why I am writing the blog using my language). This is made for my Advanced Computer Science course. It is planned to have many features such as code blocks with syntax highlighting, different font sizes, colors and styles, image support, clickable links and much more.

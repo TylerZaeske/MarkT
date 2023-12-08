@@ -125,6 +125,7 @@ input[type='file']:focus {
 #editor, #output {
     flex-grow: 1;
     overflow: auto;
+    white-space: pre-wrap;
 }
 
 #editor::-webkit-scrollbar {
@@ -153,7 +154,12 @@ pre {
     white-space: pre-wrap;
 }
 
-button, input[type='file']::file-selector-button {
+#importBtn {
+    position: absolute;
+    right: 3px;
+}
+
+button, input[type='file']::file-selector-button, #importBtn {
     background-color: rgb(50, 50, 50); /* Slightly lighter gray than the background for distinction */
     color: rgb(255, 255, 255); /* White color for text */
     border: 1px solid #ccc; /* Light gray border */
@@ -166,14 +172,14 @@ button, input[type='file']::file-selector-button {
     transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-button:hover, input[type='file']::file-selector-button:hover {
+button:hover, input[type='file']::file-selector-button:hover, #importBtn:hover {
     background-color: rgb(65, 65, 65); /* Slightly lighter gray on hover for visual feedback */
 }
 
-button:active, input[type='file']::file-selector-button:active {
+button:active, input[type='file']::file-selector-button:active, #importBtn:active {
     background-color: rgb(30, 30, 30); /* Darker gray when button is clicked */
 }
 
-button:focus, input[type='file']::file-selector-button:focus {
+button:focus, input[type='file']::file-selector-button:focus, #importBtn:focus {
     border-color: #ddd; /* Slightly lighter border when focused */
 }

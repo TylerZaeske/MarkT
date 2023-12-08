@@ -45,3 +45,7 @@ pre[class*=language-] {
 pre {
     white-space: pre-wrap;
 }
+
+code[class*="language-"], pre[class*="language-"] {
+    line-height: 0.8 !important;
+}
