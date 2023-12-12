@@ -117,6 +117,14 @@ input[type='file']:focus {
     cursor: pointer;
 }
 
+.token.local-tag {
+    color: #a6e22e;
+}
+
+.token.global-tag {
+    color: #f92672;
+}
+
 .container {
     display: flex;
     width: 100%;

@@ -4,6 +4,35 @@
             env.code = env.element.innerText;
         });
 
+        Prism.languages.markt = {
+            'local-tag': {
+                pattern: /(\[\/?.+\])/,
+            },
+            // match global tags
+            'global-tag': {
+                pattern: /(\{\/?.+\})/
+            }
+        };
+        
+
+        function assignCustomizableTag(tag, params) {
+            if (tag == "font") {
+                return `font-family: ${params};`;
+            }
+
+            if (tag == "size") {
+                return `font-size: ${params};`;
+            }
+
+            if (tag == "color") {
+                return `color: ${params};`;
+            }
+
+            if (tag == "bgcolor") {
+                return `background-color: ${params};`;
+            }
+        }
+
         window.onload = function() {
 
             const editor = document.getElementById('editor');
@@ -103,9 +132,13 @@
                         const [url, width, height] = params.split(',');
 
                         videoId = url.split('v=')[1];
-                        newurl = `https://www.youtube.com/embed/${videoId}`;
+                        newurl = `htt ps://www.youtube.com/embed/${videoId}`;
 
                         return `<iframe width="${width || 600}" height="${height || 338}" src="${newurl}" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    } else if (tag == 'font') {
+                        // add font css to the styles of the already made tag
+                        const [font] = params.split(',');
+                        return `<span style="font-family: ${font};">${linkText}</span>`;
                     }
             
                     // Return the original match if it's not a recognized tag
@@ -117,7 +150,7 @@
             // Function to handle code block transformation
             function transformCodeBlocks(text) {
 
-                const codeBlockRegex = /\[code:(\w+)\](.*?)\[\/\]/gs;
+                const codeBlockRegex = /\[code:(\w+)\](.*?)\[\/code\]/gs;
                 return text.replace(codeBlockRegex, (match, lang, code) => {
                     let formattedCode = escapeHTML(code);
                     return `<pre><code class="language-${lang}">${formattedCode.replace("\n", "")}</code></pre>`;
@@ -128,26 +161,35 @@
                 if (stack.length === 0) return text;
                 
                 let style = stack.map(preset => {
-                    if (preset.startsWith('#')) {
-                        if (preset.startsWith('##')) {
-                            return `background-color: ${preset.slice(1)};`;
-                        }
-                        return `color: ${preset};`;
-                    }
                     return presets[preset] || '';
                 }).join(' ');
+
+                // apply customizable tags
+                for (let i = 0; i < stack.length; i++) {
+                    if (stack[i].split(":")[1] != undefined) {
+                        tag = stack[i].split(":")[0];
+                        params = stack[i].split(":")[1].split(",");
+
+                        // START OF CUSTOMIZABLE TAG DECLARATIONS
+                        style += assignCustomizableTag(tag, params);
+                    }
+                    
+                }
+                
+
                 return `<span style="${style}">${text}</span>`;
             }
             
             function applyGlobalStyles(tag) {
                 if (presets[tag]) {
                     globalStyles += presets[tag];
-                } else if (tag.startsWith('#')) {
-                    if (tag.startsWith('##')) {
-                        globalStyles += `background-color: ${tag.slice(1)}; `;
-                    } else {
-                        globalStyles += `color: ${tag}; `;
-                    }
+                } else if (tag.split(":")[1] != undefined) {
+                    tagName = tag.split(":")[0];
+                    params = tag.split(":")[1];
+
+
+                    // START OF CUSTOMIZABLE TAG DECLARATIONS
+                    globalStyles += assignCustomizableTag(tagName, params);
                 }
             }
             text = transformCodeBlocks(text);
@@ -157,6 +199,9 @@
         
             // replace /<\/a>(.*?)\[\/\]/ with "</a>" 
             text = text.replace(/<\/a>(.*?)\[\/\]/gs, "</a>");
+
+            // replace /<\/span>(.*?)\[\/\]/ with "</span>"
+            text = text.replace(/<\/span>(.*?)\[\/\]/gs, "</span>");
             
             const lines = text.split('\n');
                 

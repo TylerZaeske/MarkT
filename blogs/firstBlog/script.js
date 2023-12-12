@@ -5,8 +5,6 @@ Prism.hooks.add('before-sanity-check', function (env) {
 });
 
 function renderMarkup(text) {
-
-            
     const stack = [];
     let currentText = '';
     let html = '';
@@ -30,7 +28,6 @@ function renderMarkup(text) {
     const tagWithParamsRegex = /\[(\w+):([^\]]+)\]/gs;
 
     function transformTagsWithParams(text) {
-
         return text.replace(tagWithParamsRegex, (match, tag, params, offset, string) => {
             // Extract the text following the tag up to the closing tag
             const closingTag = `[/]`;
@@ -49,16 +46,6 @@ function renderMarkup(text) {
                 return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(linkText)}</a>`;
                 }
                 return `<a href="${url}" target="_blank" style="color: inherit;">${escapeHTML(url)}</a>`;
-            } else if (tag === 'img') {
-                const [url, width, height] = params.split(',');
-                return `<img src="${url}" alt="${linkText}" width="${width}" height="${height}">`;
-            } else if (tag === 'youtube') {
-                const [url, width, height] = params.split(',');
-
-                videoId = url.split('v=')[1];
-                newurl = `https://www.youtube.com/embed/${videoId}`;
-
-                return `<iframe width="${width || 600}" height="${height || 338}" src="${newurl}" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             }
     
             // Return the original match if it's not a recognized tag
@@ -166,6 +153,7 @@ function renderMarkup(text) {
 
     const outputDiv = document.getElementById('output');
     outputDiv.innerHTML = html;
+    document.body.style = globalStyles;
     outputDiv.style = globalStyles;
     Prism.highlightAll();
 }

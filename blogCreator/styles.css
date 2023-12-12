@@ -45,3 +45,11 @@ pre[class*=language-] {
 pre {
     white-space: pre-wrap;
 }
+
+.token.local-tag {
+    color: #a6e22e;
+}
+
+.token.global-tag {
+    color: #f92672;
+}
